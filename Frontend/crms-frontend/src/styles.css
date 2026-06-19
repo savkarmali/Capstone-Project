@@ -1,0 +1,5 @@
+body { background: #f6f7fb; }
+.page { max-width: 1120px; margin: 24px auto; padding: 0 16px; }
+.panel { background: #fff; border: 1px solid #e3e7ef; border-radius: 8px; padding: 20px; }
+.metric { border-left: 4px solid #0d6efd; background: #fff; padding: 16px; border-radius: 8px; }
+.small-muted { color: #6c757d; font-size: .9rem; }

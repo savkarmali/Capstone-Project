@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class AnalyticsResponseDto {
+public class AnalyticsDashboardResponseDto {
 
     private final long totalSurveys;
 

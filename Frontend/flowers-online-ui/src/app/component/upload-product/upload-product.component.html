@@ -1,0 +1,115 @@
+<section class="page">
+  <div class="heading">
+    <p>Functionality 1</p>
+    <h1>Upload New Product</h1>
+  </div>
+
+  <form class="product-form" #productForm="ngForm" (ngSubmit)="saveProduct()">
+
+    <label>
+      Product Name
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="product.name"
+        required
+        maxlength="100"
+        placeholder="Rose Bouquet">
+    </label>
+
+    <label>
+      Category
+      <select name="category" [(ngModel)]="product.category" required>
+        <option value="">Select category</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+    </label>
+
+    <label class="full">
+      Description
+      <textarea
+        name="description"
+        [(ngModel)]="product.description"
+        required
+        maxlength="500"
+        rows="4"
+        placeholder="Fresh flowers for special occasions"></textarea>
+    </label>
+
+    <label class="full">
+      Image URL
+      <input
+        type="url"
+        name="imageUrl"
+        [(ngModel)]="product.imageUrl"
+        required
+        maxlength="500"
+        placeholder="https://example.com/flowers.jpg">
+    </label>
+
+    <label>
+      Small Price
+      <input
+        type="number"
+        name="smallPrice"
+        [(ngModel)]="product.smallPrice"
+        min="1"
+        placeholder="300">
+    </label>
+
+    <label>
+      Medium Price
+      <input
+        type="number"
+        name="mediumPrice"
+        [(ngModel)]="product.mediumPrice"
+        min="1"
+        placeholder="500">
+    </label>
+
+    <label>
+      Large Price
+      <input
+        type="number"
+        name="largePrice"
+        [(ngModel)]="product.largePrice"
+        min="1"
+        placeholder="800">
+    </label>
+
+    <label>
+      Stock Quantity
+      <input
+        type="number"
+        name="stockQuantity"
+        [(ngModel)]="product.stockQuantity"
+        required
+        min="0">
+    </label>
+
+    <label class="checkbox-row">
+      <input
+        type="checkbox"
+        name="available"
+        [(ngModel)]="product.available">
+      Available for customers
+    </label>
+
+    <div class="actions full">
+      <button type="submit" [disabled]="productForm.invalid || isSaving">
+        {{ isSaving ? 'Uploading...' : 'Upload Product' }}
+      </button>
+    </div>
+
+    <p class="message success" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+
+    <p class="message error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+
+  </form>
+</section>

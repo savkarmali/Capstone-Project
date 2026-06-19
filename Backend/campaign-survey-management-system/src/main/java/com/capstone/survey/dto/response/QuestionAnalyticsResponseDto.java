@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class QuestionAnalyticsDto {
+public class QuestionAnalyticsResponseDto {
 
     private final Long questionId;
 
