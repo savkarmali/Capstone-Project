@@ -1,0 +1,109 @@
+<section class="page">
+  <div class="heading">
+    <p>Functionality 2</p>
+    <h1>Manage Products</h1>
+  </div>
+
+  <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h2>Product List</h2>
+      <button type="button" class="secondary" (click)="loadProducts()">Refresh</button>
+    </div>
+
+    <p *ngIf="isLoading">Loading products...</p>
+    <p *ngIf="!isLoading && products.length === 0">No products found. Upload a product first.</p>
+
+    <table *ngIf="!isLoading && products.length > 0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Small</th>
+          <th>Medium</th>
+          <th>Large</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.smallPrice || '-' }}</td>
+          <td>{{ product.mediumPrice || '-' }}</td>
+          <td>{{ product.largePrice || '-' }}</td>
+          <td>{{ product.stockQuantity }}</td>
+          <td>{{ product.available ? 'Available' : 'Hidden' }}</td>
+          <td class="actions-cell">
+            <button type="button" class="secondary" (click)="startEdit(product)">Edit</button>
+            <button type="button" class="danger" (click)="deleteProduct(product)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <form class="product-form" #editForm="ngForm" (ngSubmit)="updateProduct()" *ngIf="selectedProductId !== null">
+    <h2 class="full">Edit Product</h2>
+
+    <label>
+      Product Name
+      <input type="text" name="name" [(ngModel)]="editProduct.name" required maxlength="100">
+    </label>
+
+    <label>
+      Category
+      <select name="category" [(ngModel)]="editProduct.category" required>
+        <option value="">Select category</option>
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+    </label>
+
+    <label class="full">
+      Description
+      <textarea name="description" [(ngModel)]="editProduct.description" required maxlength="500" rows="4"></textarea>
+    </label>
+
+    <label class="full">
+      Image URL
+      <input type="url" name="imageUrl" [(ngModel)]="editProduct.imageUrl" required maxlength="500">
+    </label>
+
+    <label>
+      Small Price
+      <input type="number" name="smallPrice" [(ngModel)]="editProduct.smallPrice" min="1">
+    </label>
+
+    <label>
+      Medium Price
+      <input type="number" name="mediumPrice" [(ngModel)]="editProduct.mediumPrice" min="1">
+    </label>
+
+    <label>
+      Large Price
+      <input type="number" name="largePrice" [(ngModel)]="editProduct.largePrice" min="1">
+    </label>
+
+    <label>
+      Stock Quantity
+      <input type="number" name="stockQuantity" [(ngModel)]="editProduct.stockQuantity" required min="0">
+    </label>
+
+    <label class="checkbox-row">
+      <input type="checkbox" name="available" [(ngModel)]="editProduct.available">
+      Available for customers
+    </label>
+
+    <div class="actions full">
+      <button type="submit" [disabled]="editForm.invalid || isSaving">
+        {{ isSaving ? 'Saving...' : 'Update Product' }}
+      </button>
+      <button type="button" class="secondary" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </form>
+  
+</section>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestControllerAdvice
@@ -43,4 +44,16 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<ErrorResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotFoundException(ProductNotFoundException exception) {
+        ErrorResponse response = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Product not found",
+                Collections.singletonList(exception.getMessage())
+        );
+        return new ResponseEntity<ErrorResponse>(response, HttpStatus.NOT_FOUND);
+    }
+
 }

@@ -1,0 +1,42 @@
+.topbar {
+  background: #31523b;
+  color: #fff;
+  padding: 16px 28px;
+}
+
+.topbar div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.topbar span {
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  padding-left: 12px;
+  font-size: 14px;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+nav a.active {
+  background: #fff;
+  color: #31523b;
+}
+
+main {
+  padding: 28px;
+}

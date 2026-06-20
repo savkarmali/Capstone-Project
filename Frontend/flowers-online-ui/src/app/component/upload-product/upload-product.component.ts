@@ -1,29 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { ProductRequest, ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-upload-product',
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './upload-product.component.html',
-  styleUrls: ['./upload-product.component.css']
+  styleUrl: './upload-product.component.css'
 })
-
 export class UploadProductComponent {
-  categories = [
-    'All',
-    'Birthday',
-    'Love',
-    'Marriage',
-    'Grand-Opening',
-    'Sympathy',
-    'Get-well-soon'
-  ];
+  categories = ['All', 'Birthday', 'Love', 'Marriage', 'Grand-Opening', 'Sympathy', 'Get-well-soon'];
 
   product: ProductRequest = this.getEmptyProduct();
   successMessage = '';
