@@ -10,3 +10,11 @@ CREATE TABLE IF NOT EXISTS products (
     stock_quantity INT NOT NULL,
     available BOOLEAN NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    message VARCHAR(1000) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);

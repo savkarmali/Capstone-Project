@@ -1,0 +1,51 @@
+<section class="page">
+  <div class="heading">
+    <p>Functionality 3</p>
+    <h1>Contact Flowers Online</h1>
+  </div>
+
+  <form class="contact-form" #contactForm="ngForm" (ngSubmit)="sendMessage()">
+    <label>
+      Name
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="contactMessage.name"
+        required
+        maxlength="100"
+        placeholder="Enter your name">
+    </label>
+
+    <label>
+      Email
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="contactMessage.email"
+        required
+        maxlength="150"
+        email
+        placeholder="Enter your email">
+    </label>
+
+    <label class="full">
+      Message
+      <textarea
+        name="message"
+        [(ngModel)]="contactMessage.message"
+        required
+        maxlength="1000"
+        rows="6"
+        placeholder="Write your message"></textarea>
+    </label>
+
+    <div class="actions full">
+      <button type="submit" [disabled]="contactForm.invalid || isSending">
+        {{ isSending ? 'Sending...' : 'Send Message' }}
+      </button>
+    </div>
+
+    <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</section>
