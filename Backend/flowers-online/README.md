@@ -8,7 +8,7 @@ The project uses:
 - Spring Boot
 - Spring Data JPA
 - H2 Database
-- Angular 19
+- Angular 17+
 - Maven
 - IntelliJ IDEA for backend
 - Visual Studio Code for frontend
@@ -59,9 +59,7 @@ Customer can:
 - Submit review or feedback
 - View previous orders
 
-## Current Implementation Status
-
-### Completed Functionality 1: Upload New Product
+## Functionality 1: Upload New Product
 
 Admin can upload a new flower product.
 
@@ -108,7 +106,7 @@ API endpoint:
 POST http://localhost:8080/api/admin/products
 ```
 
-### Completed Functionality 2: Manage Products
+## Functionality 2: Manage Products
 
 Admin can manage existing flower products.
 
@@ -148,11 +146,7 @@ PUT    http://localhost:8080/api/admin/products/{id}
 DELETE http://localhost:8080/api/admin/products/{id}
 ```
 
-## Future Functionalities
-
-These functionalities are planned but not implemented yet.
-
-### Functionality 3: Customer Registration and Login
+## Functionality 3: Customer Registration and Login
 
 Planned features:
 
@@ -162,7 +156,7 @@ Planned features:
 - Basic validation
 - Basic authentication
 
-### Functionality 4: Customer Shop Page
+## Functionality 4: Customer Shop Page
 
 Planned features:
 
@@ -171,7 +165,7 @@ Planned features:
 - View products by category
 - Sort products by price or new arrivals
 
-### Functionality 5: Product Details
+## Functionality 5: Product Details
 
 Planned features:
 
@@ -180,7 +174,7 @@ Planned features:
 - Show selected price
 - Add product to cart
 
-### Functionality 6: Cart Management
+## Functionality 6: Cart Management
 
 Planned features:
 
@@ -191,7 +185,7 @@ Planned features:
 - Remove item
 - Show subtotal
 
-### Functionality 7: Checkout
+## Functionality 7: Checkout
 
 Planned features:
 
@@ -200,7 +194,7 @@ Planned features:
 - Payment option
 - Order confirmation
 
-### Functionality 8: Contact Form
+## Functionality 8: Contact Form
 
 Planned features:
 
@@ -209,7 +203,7 @@ Planned features:
 - Validation
 - Save contact message
 
-### Functionality 9: Shop Locations
+## Functionality 9: Shop Locations
 
 Planned features:
 
@@ -217,7 +211,7 @@ Planned features:
 - Expand shop details
 - Show address and phone number
 
-### Functionality 10: Review and Feedback
+## Functionality 10: Review and Feedback
 
 Planned features:
 
@@ -226,7 +220,7 @@ Planned features:
 - Add review message
 - Save feedback
 
-### Functionality 11: Reports
+## Functionality 11: Reports
 
 Planned features:
 

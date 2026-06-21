@@ -1,0 +1,28 @@
+<section class="page">
+  <div class="heading">
+    <p>Functionality 4</p>
+    <h1>Our Shops</h1>
+  </div>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p *ngIf="isLoading">Loading shop locations...</p>
+
+  <div class="shop-list" *ngIf="!isLoading && locations.length > 0">
+    <article class="shop-item" *ngFor="let location of locations">
+      <button type="button" class="shop-header" (click)="toggleLocation(location.id)">
+        <span>{{ location.shopName }}</span>
+        <strong>{{ expandedLocationId === location.id ? '^' : 'v' }}</strong>
+      </button>
+
+      <div class="shop-details" *ngIf="expandedLocationId === location.id">
+        <p>{{ location.address }}</p>
+        <p>{{ location.city }}, {{ location.country }}</p>
+        <p>Phone: {{ location.phoneNumber }}</p>
+      </div>
+    </article>
+  </div>
+
+  <p *ngIf="!isLoading && locations.length === 0 && !errorMessage">
+    No shop locations available.
+  </p>
+</section>

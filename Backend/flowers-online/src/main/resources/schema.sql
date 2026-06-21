@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS products (
     large_price DECIMAL(10, 2),
     stock_quantity INT NOT NULL,
     available BOOLEAN NOT NULL
-);
+    );
 
 CREATE TABLE IF NOT EXISTS contact_messages (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -17,4 +17,13 @@ CREATE TABLE IF NOT EXISTS contact_messages (
     email VARCHAR(150) NOT NULL,
     message VARCHAR(1000) NOT NULL,
     created_at TIMESTAMP NOT NULL
-);
+    );
+
+CREATE TABLE IF NOT EXISTS shop_locations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shop_name VARCHAR(100) NOT NULL,
+    address VARCHAR(300) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL
+    );
