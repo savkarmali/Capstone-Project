@@ -1,0 +1,50 @@
+<section class="page">
+  <div class="heading">
+    <p>Functionality 5</p>
+    <h1>Review / Feedback</h1>
+  </div>
+
+  <form class="review-form" #reviewForm="ngForm" (ngSubmit)="sendReview()">
+    <label>
+      Email
+      <input
+        type="email"
+        name="reviewerEmail"
+        [(ngModel)]="review.reviewerEmail"
+        required
+        maxlength="150"
+        email
+        placeholder="Enter your email">
+    </label>
+
+    <label>
+      Rating
+      <select name="rating" [(ngModel)]="review.rating" required>
+        <option [ngValue]="null">Select rating</option>
+        <option *ngFor="let rating of ratings" [ngValue]="rating">
+          {{ rating }} - {{ rating === 5 ? 'Highly satisfied' : rating === 1 ? 'Least satisfied' : 'Satisfied' }}
+        </option>
+      </select>
+    </label>
+
+    <label class="full">
+      Review Message
+      <textarea
+        name="reviewMessage"
+        [(ngModel)]="review.reviewMessage"
+        required
+        maxlength="1000"
+        rows="6"
+        placeholder="Share your shopping experience"></textarea>
+    </label>
+
+    <div class="actions full">
+      <button type="submit" [disabled]="reviewForm.invalid || isSending">
+        {{ isSending ? 'Submitting...' : 'Submit Review' }}
+      </button>
+    </div>
+
+    <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</section>

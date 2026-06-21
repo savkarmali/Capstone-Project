@@ -27,3 +27,24 @@ CREATE TABLE IF NOT EXISTS shop_locations (
     country VARCHAR(100) NOT NULL,
     phone_number VARCHAR(20) NOT NULL
     );
+
+CREATE TABLE IF NOT EXISTS reviews (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    reviewer_email VARCHAR(150) NOT NULL,
+    rating INT NOT NULL,
+    review_message VARCHAR(1000) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+    );
+
+CREATE TABLE IF NOT EXISTS customers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(10) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+    );
