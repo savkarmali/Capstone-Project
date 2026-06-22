@@ -26,6 +26,18 @@ export interface CustomerResponse {
   createdAt: string;
 }
 
+export interface CustomerLoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface CustomerLoginResponse {
+  customerId: number;
+  firstName: string;
+  email: string;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,5 +48,9 @@ export class CustomerService {
 
   registerCustomer(request: CustomerRegistrationRequest): Observable<CustomerResponse> {
     return this.http.post<CustomerResponse>(`${this.customerApiUrl}/register`, request);
+  }
+
+  loginCustomer(request: CustomerLoginRequest): Observable<CustomerLoginResponse> {
+    return this.http.post<CustomerLoginResponse>(`${this.customerApiUrl}/login`, request);
   }
 }

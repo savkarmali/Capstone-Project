@@ -1,5 +1,7 @@
 package com.capstone.customer.service.impl;
 
+import com.capstone.customer.dto.CustomerLoginRequest;
+import com.capstone.customer.dto.CustomerLoginResponse;
 import com.capstone.customer.dto.CustomerResponse;
 import com.capstone.customer.entity.Customer;
 import com.capstone.customer.repository.CustomerRepository;
@@ -37,6 +39,22 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         return toResponse(savedCustomer);
     }
 
+    @Override
+    public CustomerLoginResponse loginCustomer(CustomerLoginRequest request) {
+        Customer customer = customerRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+
+        if (!customer.getPassword().equals(request.getPassword())) {
+            throw new IllegalArgumentException("Invalid email or password");
+        }
+
+        CustomerLoginResponse response = new CustomerLoginResponse();
+        response.setCustomerId(customer.getId());
+        response.setFirstName(customer.getFirstName());
+        response.setEmail(customer.getEmail());
+        response.setMessage("Login successful");
+        return response;
+    }
     private CustomerResponse toResponse(Customer customer) {
         CustomerResponse response = new CustomerResponse();
         response.setId(customer.getId());

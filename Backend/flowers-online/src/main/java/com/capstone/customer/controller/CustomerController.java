@@ -1,5 +1,7 @@
 package com.capstone.customer.controller;
 
+import com.capstone.customer.dto.CustomerLoginRequest;
+import com.capstone.customer.dto.CustomerLoginResponse;
 import com.capstone.customer.dto.CustomerRegistrationRequest;
 import com.capstone.customer.dto.CustomerResponse;
 import jakarta.validation.Valid;
@@ -23,5 +25,11 @@ public class CustomerController {
             @Valid @RequestBody CustomerRegistrationRequest request) {
         CustomerResponse response = customerService.registerCustomer(request);
         return new ResponseEntity<CustomerResponse>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<CustomerLoginResponse> loginCustomer(
+            @Valid @RequestBody CustomerLoginRequest request) {
+        return ResponseEntity.ok(customerService.loginCustomer(request));
     }
 }

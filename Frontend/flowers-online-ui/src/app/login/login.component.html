@@ -1,0 +1,39 @@
+<section class="login-page">
+  <div class="page-title">
+    <p>Functionality 7</p>
+    <h1>Customer Login</h1>
+  </div>
+
+  <form class="login-card" #loginForm="ngForm" (ngSubmit)="loginCustomer()">
+    <label>
+      Email
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="loginRequest.email"
+        required
+        email
+        maxlength="150"
+        placeholder="Enter your email">
+    </label>
+
+    <label>
+      Password
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="loginRequest.password"
+        required
+        placeholder="Enter your password">
+    </label>
+
+    <div class="actions">
+      <button type="submit" [disabled]="loginForm.invalid || isLoggingIn">
+        {{ isLoggingIn ? 'Logging in...' : 'Login' }}
+      </button>
+    </div>
+
+    <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</section>
