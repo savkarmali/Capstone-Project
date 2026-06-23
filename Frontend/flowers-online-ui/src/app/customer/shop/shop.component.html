@@ -1,0 +1,55 @@
+<section class="shop-page">
+  <div class="page-title">
+    <p>Functionality 9</p>
+    <h1>Shop Flowers</h1>
+  </div>
+
+  <div class="category-strip">
+    <button
+      type="button"
+      *ngFor="let category of categories"
+      [class.active]="selectedCategory === category"
+      (click)="selectCategory(category)">
+      {{ category }}
+    </button>
+  </div>
+
+  <div class="toolbar">
+    <p>{{ products.length }} products</p>
+
+    <button type="button" class="shop-now" (click)="shopNow()">Shop Now</button>
+
+    <label>
+      Sort By
+      <select name="sortBy" [(ngModel)]="sortBy" (change)="loadProducts()">
+        <option value="new-arrivals">New Arrivals</option>
+        <option value="name">Name</option>
+        <option value="price-low-to-high">Price Low to High</option>
+        <option value="price-high-to-low">Price High to Low</option>
+      </select>
+    </label>
+  </div>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p *ngIf="isLoading">Loading products...</p>
+
+  <div class="product-grid" *ngIf="!isLoading && products.length > 0">
+    <article class="product-card" *ngFor="let product of products">
+      <img [src]="product.imageUrl" [alt]="product.name">
+
+      <div class="product-body">
+        <p class="category">{{ product.category }}</p>
+        <h2>{{ product.name }}</h2>
+        <p class="description">{{ product.description }}</p>
+        <p class="price" *ngIf="getStartingPrice(product) !== null">
+          Starts from {{ getStartingPrice(product) }}
+        </p>
+        <p class="stock">{{ product.stockQuantity }} pieces available</p>
+      </div>
+    </article>
+  </div>
+
+  <p *ngIf="!isLoading && products.length === 0 && !errorMessage">
+    No products found for this category.
+  </p>
+</section>
