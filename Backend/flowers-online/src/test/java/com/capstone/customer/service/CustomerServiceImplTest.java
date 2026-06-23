@@ -1,9 +1,6 @@
 package com.capstone.customer.service;
 
-import com.capstone.customer.dto.CustomerLoginRequest;
-import com.capstone.customer.dto.CustomerLoginResponse;
-import com.capstone.customer.dto.CustomerRegistrationRequest;
-import com.capstone.customer.dto.CustomerResponse;
+import com.capstone.customer.dto.*;
 import com.capstone.customer.entity.Customer;
 import com.capstone.customer.repository.CustomerRepository;
 import com.capstone.customer.service.impl.CustomerServiceImpl;
@@ -88,6 +85,46 @@ class CustomerServiceImplTest {
 
         assertThrows(IllegalArgumentException.class, () -> service.loginCustomer(request));
     }
+
+    @Test
+    void changePasswordShouldUpdatePasswordForValidOldPassword() {
+        CustomerRepository repository = mock(CustomerRepository.class);
+        CustomerService service = new CustomerServiceImpl(repository);
+
+        Customer customer = getCustomer();
+        ChangePasswordRequest request = new ChangePasswordRequest();
+        request.setEmail("mary@example.com");
+        request.setOldPassword("secret123");
+        request.setNewPassword("newsecret123");
+
+        when(repository.findByEmail("mary@example.com")).thenReturn(Optional.of(customer));
+        when(repository.save(any(Customer.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ChangePasswordResponse response = service.changePassword(request);
+
+        ArgumentCaptor<Customer> captor = ArgumentCaptor.forClass(Customer.class);
+        verify(repository).save(captor.capture());
+
+        assertEquals("newsecret123", captor.getValue().getPassword());
+        assertEquals("Password changed successfully", response.getMessage());
+    }
+
+    @Test
+    void changePasswordShouldThrowExceptionForWrongOldPassword() {
+        CustomerRepository repository = mock(CustomerRepository.class);
+        CustomerService service = new CustomerServiceImpl(repository);
+
+        Customer customer = getCustomer();
+        ChangePasswordRequest request = new ChangePasswordRequest();
+        request.setEmail("mary@example.com");
+        request.setOldPassword("wrong-password");
+        request.setNewPassword("newsecret123");
+
+        when(repository.findByEmail("mary@example.com")).thenReturn(Optional.of(customer));
+
+        assertThrows(IllegalArgumentException.class, () -> service.changePassword(request));
+    }
+
     private CustomerRegistrationRequest getRequest() {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest();
         request.setTitle("Ms");

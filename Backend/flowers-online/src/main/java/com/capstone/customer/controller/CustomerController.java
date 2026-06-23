@@ -1,9 +1,6 @@
 package com.capstone.customer.controller;
 
-import com.capstone.customer.dto.CustomerLoginRequest;
-import com.capstone.customer.dto.CustomerLoginResponse;
-import com.capstone.customer.dto.CustomerRegistrationRequest;
-import com.capstone.customer.dto.CustomerResponse;
+import com.capstone.customer.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +28,11 @@ public class CustomerController {
     public ResponseEntity<CustomerLoginResponse> loginCustomer(
             @Valid @RequestBody CustomerLoginRequest request) {
         return ResponseEntity.ok(customerService.loginCustomer(request));
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<ChangePasswordResponse> changePassword(
+            @Valid @RequestBody ChangePasswordRequest request) {
+        return ResponseEntity.ok(customerService.changePassword(request));
     }
 }

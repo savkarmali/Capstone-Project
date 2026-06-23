@@ -1,8 +1,6 @@
 package com.capstone.customer.service.impl;
 
-import com.capstone.customer.dto.CustomerLoginRequest;
-import com.capstone.customer.dto.CustomerLoginResponse;
-import com.capstone.customer.dto.CustomerResponse;
+import com.capstone.customer.dto.*;
 import com.capstone.customer.entity.Customer;
 import com.capstone.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -55,6 +53,25 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         response.setMessage("Login successful");
         return response;
     }
+
+    @Override
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request) {
+        Customer customer = customerRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Customer account not found"));
+
+        if (!customer.getPassword().equals(request.getOldPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+
+        customer.setPassword(request.getNewPassword());
+        Customer updatedCustomer = customerRepository.save(customer);
+
+        ChangePasswordResponse response = new ChangePasswordResponse();
+        response.setEmail(updatedCustomer.getEmail());
+        response.setMessage("Password changed successfully");
+        return response;
+    }
+
     private CustomerResponse toResponse(Customer customer) {
         CustomerResponse response = new CustomerResponse();
         response.setId(customer.getId());

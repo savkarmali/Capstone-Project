@@ -38,6 +38,17 @@ export interface CustomerLoginResponse {
   message: string;
 }
 
+export interface ChangePasswordRequest {
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordResponse {
+  email: string;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -52,5 +63,9 @@ export class CustomerService {
 
   loginCustomer(request: CustomerLoginRequest): Observable<CustomerLoginResponse> {
     return this.http.post<CustomerLoginResponse>(`${this.customerApiUrl}/login`, request);
+  }
+
+  changePassword(request: ChangePasswordRequest): Observable<ChangePasswordResponse> {
+    return this.http.post<ChangePasswordResponse>(`${this.customerApiUrl}/change-password`, request);
   }
 }

@@ -5,7 +5,8 @@ import { ContactComponent } from './customer/contact/contact.component';
 import { LocationsComponent } from './customer/location/locations.component';
 import { ReviewComponent } from './customer/review/review.component';
 import { RegisterComponent } from './customer/account/register.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './customer/login/login.component';
+import { ChangePasswordComponent } from './customer/change-password/change-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'admin/upload-product', pathMatch: 'full' },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'locations', component: LocationsComponent },
   { path: 'review', component: ReviewComponent },
   { path: 'account/register', component: RegisterComponent },
-  { path: 'account/login', component: LoginComponent }
+  { path: 'account/login', component: LoginComponent },
+  { path: 'account/change-password', component: ChangePasswordComponent }
 ];
