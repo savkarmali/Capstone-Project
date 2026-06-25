@@ -1045,3 +1045,436 @@ Not implemented yet:
 - Password is stored simply for learning purposes. A real application should use BCrypt and Spring Security.
 - JWT security is not implemented yet.
 - Each functionality is intentionally built one step at a time.
+
+# Functionalities 11, 12, and 13
+
+This README covers the cart and checkout flow for the Flowers Online Shopping project.
+
+## Flow Summary
+
+```text
+Product Details
+-> Add to Cart
+-> View / Manage Cart
+-> Checkout
+-> Order Confirmation
+```
+
+## Functionality 11: Add Product to Cart
+
+### Use
+
+Customer can add a selected product to the cart after choosing product size and quantity.
+
+### Requirement Covered
+
+From the requirement screenshots:
+
+- Customer can open product details.
+- Customer can choose size.
+- Customer can add selected item to cart.
+
+### Backend
+
+Table:
+
+```text
+cart_items
+```
+
+Backend files:
+
+- `CartItem.java`
+- `AddToCartRequest.java`
+- `CartItemResponse.java`
+- `CartItemRepository.java`
+- `CartService.java`
+- `CartServiceImpl.java`
+- `CartController.java`
+- `CartServiceImplTest.java`
+- `schema.sql`
+
+### Frontend
+
+Angular 19 standalone files:
+
+- `cart.service.ts`
+- `product-detail.component.ts`
+- `product-detail.component.html`
+- `product-detail.component.css`
+
+### API Endpoint
+
+```text
+POST http://localhost:8080/api/cart/items
+```
+
+### Sample Request
+
+```json
+{
+  "customerEmail": "mary@example.com",
+  "productId": 1,
+  "selectedSize": "Medium",
+  "quantity": 2
+}
+```
+
+### Sample Response
+
+```json
+{
+  "id": 1,
+  "customerEmail": "mary@example.com",
+  "productId": 1,
+  "productName": "Rose Bouquet",
+  "imageUrl": "https://example.com/rose.jpg",
+  "selectedSize": "Medium",
+  "price": 500,
+  "quantity": 2,
+  "subtotal": 1000,
+  "createdAt": "2026-06-25T11:30:00"
+}
+```
+
+### Testing Steps
+
+1. Start Spring Boot backend.
+2. Start Angular frontend.
+3. Upload a product from Admin.
+4. Open:
+
+```text
+http://localhost:4200/shop
+```
+
+5. Click `View Details`.
+6. Choose product size.
+7. Enter customer email.
+8. Enter quantity.
+9. Click `Add to Cart`.
+10. Verify success message.
+11. Verify H2:
+
+```sql
+SELECT * FROM cart_items;
+```
+
+## Functionality 12: View / Manage Cart
+
+### Use
+
+Customer can view cart items, update quantity, remove cart items, and see cart total.
+
+### Requirement Covered
+
+From the requirement screenshots:
+
+- Customer can open cart.
+- Empty cart message is shown when no items exist.
+- Cart shows item image, name, size, quantity, price, and subtotal.
+- Customer can remove items.
+- Customer can update quantity.
+
+### Backend
+
+Existing table:
+
+```text
+cart_items
+```
+
+Backend files:
+
+- `UpdateCartItemRequest.java`
+- `CartSummaryResponse.java`
+- `CartItemRepository.java`
+- `CartService.java`
+- `CartServiceImpl.java`
+- `CartController.java`
+
+### Frontend
+
+Angular 19 standalone files:
+
+- `cart.service.ts`
+- `cart.component.ts`
+- `cart.component.html`
+- `cart.component.css`
+- `app.routes.ts`
+- `app.component.html`
+
+Frontend URL:
+
+```text
+http://localhost:4200/cart
+```
+
+### API Endpoints
+
+View cart:
+
+```text
+GET http://localhost:8080/api/cart/items?customerEmail=mary@example.com
+```
+
+Update quantity:
+
+```text
+PUT http://localhost:8080/api/cart/items/{cartItemId}
+```
+
+Remove item:
+
+```text
+DELETE http://localhost:8080/api/cart/items/{cartItemId}
+```
+
+### Sample View Cart Response
+
+```json
+{
+  "customerEmail": "mary@example.com",
+  "items": [
+    {
+      "id": 1,
+      "customerEmail": "mary@example.com",
+      "productId": 1,
+      "productName": "Rose Bouquet",
+      "imageUrl": "https://example.com/rose.jpg",
+      "selectedSize": "Medium",
+      "price": 500,
+      "quantity": 2,
+      "subtotal": 1000,
+      "createdAt": "2026-06-25T14:30:00"
+    }
+  ],
+  "cartTotal": 1000
+}
+```
+
+### Sample Update Quantity Request
+
+```json
+{
+  "quantity": 3
+}
+```
+
+### Testing Steps
+
+1. Add an item to cart using Functionality 11.
+2. Open:
+
+```text
+http://localhost:4200/cart
+```
+
+3. Enter customer email.
+4. Click `View Cart`.
+5. Verify cart item details.
+6. Change quantity.
+7. Verify subtotal and cart total are updated.
+8. Click `Remove`.
+9. Verify item is removed.
+10. Verify H2:
+
+```sql
+SELECT * FROM cart_items;
+```
+
+## Functionality 13: Checkout
+
+### Use
+
+Customer can place an order using existing cart items.
+
+### Requirement Covered
+
+From the requirement screenshots:
+
+- Customer proceeds to checkout from cart.
+- Customer provides delivery information.
+- Customer selects payment option.
+- Customer receives order confirmation.
+
+### Backend
+
+Tables:
+
+```text
+orders
+order_items
+```
+
+Backend files:
+
+- `Order.java`
+- `OrderItem.java`
+- `CheckoutRequest.java`
+- `OrderResponse.java`
+- `OrderRepository.java`
+- `OrderItemRepository.java`
+- `OrderService.java`
+- `OrderServiceImpl.java`
+- `OrderController.java`
+- `schema.sql`
+
+### Frontend
+
+Angular 19 standalone files:
+
+- `order.service.ts`
+- `checkout.component.ts`
+- `checkout.component.html`
+- `checkout.component.css`
+- `cart.component.html`
+- `cart.component.css`
+- `app.routes.ts`
+- `app.component.html`
+
+Frontend URL:
+
+```text
+http://localhost:4200/checkout
+```
+
+### API Endpoint
+
+```text
+POST http://localhost:8080/api/orders/checkout
+```
+
+### Sample Request
+
+```json
+{
+  "customerEmail": "mary@example.com",
+  "deliveryName": "Mary Rose",
+  "deliveryAddress": "12 Rose Street",
+  "deliveryCity": "Bengaluru",
+  "deliveryCountry": "India",
+  "phoneNumber": "9876543210",
+  "paymentMethod": "COD"
+}
+```
+
+### Sample Response
+
+```json
+{
+  "orderId": 1,
+  "customerEmail": "mary@example.com",
+  "orderTotal": 1000,
+  "orderStatus": "CONFIRMED",
+  "paymentMethod": "COD",
+  "createdAt": "2026-06-25T16:45:00",
+  "message": "Order placed successfully"
+}
+```
+
+### Testing Steps
+
+1. Add product to cart.
+2. Open:
+
+```text
+http://localhost:4200/cart
+```
+
+3. Enter customer email and click `View Cart`.
+4. Click `Proceed to Checkout`.
+5. Enter delivery name, address, city, country, phone number, and payment method.
+6. Click `Place Order`.
+7. Verify order confirmation.
+8. Verify H2:
+
+```sql
+SELECT * FROM orders;
+SELECT * FROM order_items;
+SELECT * FROM cart_items;
+```
+
+After successful checkout, cart items for that customer should be cleared.
+
+## Complete Testing Flow
+
+1. Upload product from Admin.
+2. Open Shop.
+3. View product details.
+4. Choose size.
+5. Add item to cart.
+6. Open Cart.
+7. Update quantity if needed.
+8. Remove item if needed.
+9. Proceed to Checkout.
+10. Place order.
+11. Confirm `orders` and `order_items` tables have data.
+12. Confirm `cart_items` table is cleared for that customer.
+
+## Data Flow
+
+### Add to Cart
+
+```text
+Product Detail Page
+-> CartService
+-> CartController
+-> CartServiceImpl
+-> ProductRepository
+-> CartItemRepository
+-> cart_items table
+```
+
+### View / Manage Cart
+
+```text
+Cart Page
+-> CartService
+-> CartController
+-> CartServiceImpl
+-> CartItemRepository
+-> cart_items table
+```
+
+### Checkout
+
+```text
+Checkout Page
+-> OrderService
+-> OrderController
+-> OrderServiceImpl
+-> CartItemRepository
+-> OrderRepository
+-> OrderItemRepository
+-> orders and order_items tables
+```
+
+## Validation and Error Handling
+
+Validation examples:
+
+- Customer email is required.
+- Customer email must be valid.
+- Product ID is required.
+- Selected size is required.
+- Quantity must be at least 1.
+- Delivery name is required.
+- Delivery address is required.
+- Phone number must contain 10 digits.
+- Payment method is required.
+
+Error examples:
+
+- Product not found.
+- Product is not available.
+- Selected size is not available.
+- Cart is empty before checkout.
+
+## Notes
+
+- This is a beginner-friendly implementation.
+- Cart is identified using customer email because JWT/login session handling is not implemented yet.
+- Online payment integration is not included.
+- Email confirmation is not included.
+- Order history can be added as a future functionality.
