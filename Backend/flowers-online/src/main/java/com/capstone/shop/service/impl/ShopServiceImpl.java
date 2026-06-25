@@ -2,6 +2,7 @@ package com.capstone.shop.service.impl;
 
 import com.capstone.dto.ProductResponse;
 import com.capstone.entity.Product;
+import com.capstone.exception.ProductNotFoundException;
 import com.capstone.repository.ProductRepository;
 import com.capstone.shop.service.ShopService;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,18 @@ public class ShopServiceImpl implements ShopService {
                 .sorted(getComparator(sortBy))
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductResponse getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+
+        if (!Boolean.TRUE.equals(product.getAvailable())) {
+            throw new ProductNotFoundException("Product not available with id: " + id);
+        }
+
+        return toResponse(product);
     }
 
     private Comparator<Product> getComparator(String sortBy) {

@@ -139,6 +139,17 @@ h2 {
   font-size: 14px;
 }
 
+.details-link {
+  display: inline-block;
+  margin-top: 14px;
+  border-radius: 6px;
+  background: #31523b;
+  color: #ffffff;
+  padding: 10px 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
 .message {
   margin: 0 0 16px;
   padding: 12px 14px;

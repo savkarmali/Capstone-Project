@@ -37,4 +37,9 @@ export class ShopService {
 
     return this.http.get<ShopProduct[]>(`${this.shopApiUrl}/products`, { params });
   }
+
+  
+  getProductById(id: number): Observable<ShopProduct> {
+    return this.http.get<ShopProduct>(`${this.shopApiUrl}/products/${id}`);
+  }
 }

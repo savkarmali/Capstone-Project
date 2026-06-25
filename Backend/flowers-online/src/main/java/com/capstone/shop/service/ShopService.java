@@ -10,4 +10,6 @@ public interface ShopService {
     List<String> getCategories();
 
     List<ProductResponse> getProducts(String category, String sortBy);
+
+    ProductResponse getProductById(Long id);
 }

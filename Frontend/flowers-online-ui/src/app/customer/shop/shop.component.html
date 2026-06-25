@@ -45,6 +45,7 @@
           Starts from {{ getStartingPrice(product) }}
         </p>
         <p class="stock">{{ product.stockQuantity }} pieces available</p>
+        <a class="details-link" [routerLink]="['/shop/product', product.id]">View Details</a>
       </div>
     </article>
   </div>

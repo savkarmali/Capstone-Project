@@ -1,0 +1,43 @@
+<section class="detail-page">
+  <a class="back-link" routerLink="/shop">Back to Shop</a>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p *ngIf="isLoading">Loading product details...</p>
+
+  <article class="detail-card" *ngIf="!isLoading && product">
+    <div class="image-panel">
+      <img [src]="product.imageUrl" [alt]="product.name">
+    </div>
+
+    <div class="info-panel">
+      <p class="category">{{ product.category }}</p>
+      <h1>{{ product.name }}</h1>
+      <p class="description">{{ product.description }}</p>
+      <p class="stock">{{ product.stockQuantity }} pieces available</p>
+
+      <div class="size-section">
+        <h2>Choose Size</h2>
+
+        <div class="size-options">
+          <button
+            type="button"
+            *ngFor="let size of sizeOptions"
+            [class.active]="selectedSize?.label === size.label"
+            (click)="selectSize(size)">
+            <span>{{ size.label }}</span>
+            <strong>{{ size.price }}</strong>
+          </button>
+        </div>
+      </div>
+
+      <div class="total-box" *ngIf="selectedSize">
+        <span>Total</span>
+        <strong>{{ selectedSize.price }}</strong>
+      </div>
+
+      <button type="button" class="cart-button" disabled>
+        Add to Cart will be added in next functionality
+      </button>
+    </div>
+  </article>
+</section>

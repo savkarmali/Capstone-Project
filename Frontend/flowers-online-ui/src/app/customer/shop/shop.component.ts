@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ShopProduct, ShopService } from '../../services/shop.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -63,4 +64,6 @@ export class ShopComponent implements OnInit {
       .filter((price): price is number => price !== null && price !== undefined);
     return prices.length > 0 ? Math.min(...prices) : null;
   }
+
+
 }

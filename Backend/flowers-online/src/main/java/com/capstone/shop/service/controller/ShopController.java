@@ -29,4 +29,9 @@ public class ShopController {
             @RequestParam(required = false, defaultValue = "new-arrivals") String sortBy) {
         return ResponseEntity.ok(shopService.getProducts(category, sortBy));
     }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(shopService.getProductById(id));
+    }
 }
