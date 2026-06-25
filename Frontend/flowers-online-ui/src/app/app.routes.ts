@@ -9,6 +9,8 @@ import { LoginComponent } from './customer/login/login.component';
 import { ChangePasswordComponent } from './customer/change-password/change-password.component';
 import { ShopComponent } from './customer/shop/shop.component';
 import { ProductDetailComponent } from './customer/product-detail/product-detail.component';
+import { CartComponent } from './customer/cart/cart.component';
+import { CheckoutComponent } from './customer/checkout/checkout.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'admin/upload-product', pathMatch: 'full' },
@@ -21,5 +23,7 @@ export const routes: Routes = [
   { path: 'account/login', component: LoginComponent },
   { path: 'account/change-password', component: ChangePasswordComponent },
   { path: 'shop', component: ShopComponent }, 
-  { path: 'shop/product/:id', component: ProductDetailComponent }
+  { path: 'shop/product/:id', component: ProductDetailComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'checkout', component: CheckoutComponent }
 ];

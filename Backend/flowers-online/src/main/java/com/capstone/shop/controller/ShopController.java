@@ -1,4 +1,4 @@
-package com.capstone.shop.service.controller;
+package com.capstone.shop.controller;
 
 import com.capstone.dto.ProductResponse;
 import com.capstone.shop.service.ShopService;

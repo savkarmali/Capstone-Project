@@ -1,0 +1,112 @@
+<section class="checkout-page">
+  <div class="page-title">
+    <p>Functionality 13</p>
+    <h1>Checkout</h1>
+  </div>
+
+  <form class="checkout-card" #checkoutForm="ngForm" (ngSubmit)="placeOrder()" *ngIf="!orderResponse">
+    <label>
+      Customer Email
+      <input
+        type="email"
+        name="customerEmail"
+        [(ngModel)]="checkoutRequest.customerEmail"
+        required
+        email
+        maxlength="150"
+        placeholder="Enter your registered email">
+    </label>
+
+    <label>
+      Delivery Name
+      <input
+        type="text"
+        name="deliveryName"
+        [(ngModel)]="checkoutRequest.deliveryName"
+        required
+        maxlength="100">
+    </label>
+
+    <label class="full">
+      Delivery Address
+      <textarea
+        name="deliveryAddress"
+        [(ngModel)]="checkoutRequest.deliveryAddress"
+        required
+        maxlength="300"
+        rows="4"></textarea>
+    </label>
+
+    <label>
+      City
+      <input
+        type="text"
+        name="deliveryCity"
+        [(ngModel)]="checkoutRequest.deliveryCity"
+        required
+        maxlength="100">
+    </label>
+
+    <label>
+      Country
+      <select name="deliveryCountry" [(ngModel)]="checkoutRequest.deliveryCountry" required>
+        <option value="">Select country</option>
+        <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+      </select>
+    </label>
+
+    <label>
+      Phone Number
+      <input
+        type="tel"
+        name="phoneNumber"
+        [(ngModel)]="checkoutRequest.phoneNumber"
+        required
+        pattern="[0-9]{10}"
+        placeholder="9876543210">
+    </label>
+
+    <label>
+      Payment Method
+      <select name="paymentMethod" [(ngModel)]="checkoutRequest.paymentMethod" required>
+        <option value="">Select payment</option>
+        <option *ngFor="let paymentMethod of paymentMethods" [value]="paymentMethod">{{ paymentMethod }}</option>
+      </select>
+    </label>
+
+    <div class="actions full">
+      <button type="submit" [disabled]="checkoutForm.invalid || isPlacingOrder">
+        {{ isPlacingOrder ? 'Placing Order...' : 'Place Order' }}
+      </button>
+    </div>
+  </form>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="confirmation-card" *ngIf="orderResponse">
+    <h2>Order Confirmed</h2>
+    <p>{{ orderResponse.message }}</p>
+    <dl>
+      <div>
+        <dt>Order ID</dt>
+        <dd>{{ orderResponse.orderId }}</dd>
+      </div>
+      <div>
+        <dt>Email</dt>
+        <dd>{{ orderResponse.customerEmail }}</dd>
+      </div>
+      <div>
+        <dt>Total</dt>
+        <dd>{{ orderResponse.orderTotal }}</dd>
+      </div>
+      <div>
+        <dt>Payment</dt>
+        <dd>{{ orderResponse.paymentMethod }}</dd>
+      </div>
+      <div>
+        <dt>Status</dt>
+        <dd>{{ orderResponse.orderStatus }}</dd>
+      </div>
+    </dl>
+  </div>
+</section>

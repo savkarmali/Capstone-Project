@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 import { ShopProduct, ShopService } from '../../services/shop.service';
 
 interface SizeOption {
@@ -11,7 +13,7 @@ interface SizeOption {
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
@@ -19,12 +21,17 @@ export class ProductDetailComponent implements OnInit {
   product: ShopProduct | null = null;
   sizeOptions: SizeOption[] = [];
   selectedSize: SizeOption | null = null;
+  customerEmail = '';
+  quantity = 1;
   isLoading = false;
+  isAddingToCart = false;
+  successMessage = '';
   errorMessage = '';
 
   constructor(
     private route: ActivatedRoute,
-    private shopService: ShopService
+    private shopService: ShopService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +67,37 @@ export class ProductDetailComponent implements OnInit {
     this.selectedSize = sizeOption;
   }
 
+  addToCart(): void {
+    this.successMessage = '';
+    this.errorMessage = '';
+
+    if (!this.product || !this.selectedSize) {
+      this.errorMessage = 'Please select a product size.';
+      return;
+    }
+
+    this.isAddingToCart = true;
+    this.cartService.addToCart({
+      customerEmail: this.customerEmail,
+      productId: this.product.id,
+      selectedSize: this.selectedSize.label,
+      quantity: this.quantity
+    }).subscribe({
+      next: response => {
+        this.successMessage = `${response.productName} added to cart successfully.`;
+        this.isAddingToCart = false;
+      },
+      error: error => {
+        this.errorMessage = this.getErrorMessage(error);
+        this.isAddingToCart = false;
+      }
+    });
+  }
+
+  getTotal(): number {
+    return this.selectedSize ? this.selectedSize.price * this.quantity : 0;
+  }
+
   private getSizeOptions(product: ShopProduct): SizeOption[] {
     const options: SizeOption[] = [];
 
@@ -76,5 +114,12 @@ export class ProductDetailComponent implements OnInit {
     }
 
     return options;
+  }
+
+  private getErrorMessage(error: any): string {
+    if (error.error && Array.isArray(error.error.errors)) {
+      return error.error.errors.join(' ');
+    }
+    return 'Unable to add product to cart. Please try again.';
   }
 }

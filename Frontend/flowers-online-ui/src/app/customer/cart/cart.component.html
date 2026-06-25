@@ -1,0 +1,75 @@
+<section class="cart-page">
+  <div class="page-title">
+    <p>Functionality 12</p>
+    <h1>Shopping Cart</h1>
+  </div>
+
+  <form class="lookup-card" #cartLookupForm="ngForm" (ngSubmit)="loadCart()">
+    <label>
+      Customer Email
+      <input
+        type="email"
+        name="customerEmail"
+        [(ngModel)]="customerEmail"
+        required
+        email
+        maxlength="150"
+        placeholder="Enter your registered email">
+    </label>
+
+    <button type="submit" [disabled]="cartLookupForm.invalid || isLoading">
+      {{ isLoading ? 'Loading...' : 'View Cart' }}
+    </button>
+  </form>
+
+  <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="empty-cart" *ngIf="cart && cart.items.length === 0">
+    <h2>Your cart is empty</h2>
+    <a routerLink="/shop">Start Shopping</a>
+  </div>
+
+  <div class="cart-card" *ngIf="cart && cart.items.length > 0">
+    <div class="cart-row header">
+      <span>Item</span>
+      <span>Size</span>
+      <span>Quantity</span>
+      <span>Price</span>
+      <span>Subtotal</span>
+      <span>Action</span>
+    </div>
+
+    <div class="cart-row" *ngFor="let item of cart.items">
+      <div class="item-info">
+        <img [src]="item.imageUrl" [alt]="item.productName">
+        <strong>{{ item.productName }}</strong>
+      </div>
+
+      <span>{{ item.selectedSize }}</span>
+
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="item.quantity"
+        [name]="'quantity' + item.id"
+        (change)="updateQuantity(item)">
+
+      <span>{{ item.price }}</span>
+      <span>{{ item.subtotal }}</span>
+
+      <button type="button" class="danger" (click)="removeItem(item)">
+        Remove
+      </button>
+    </div>
+
+    <div class="cart-total">
+      <span>Cart Total</span>
+      <strong>{{ cart.cartTotal }}</strong>
+    </div>
+
+    <div class="checkout-actions">
+      <a routerLink="/checkout">Proceed to Checkout</a>
+    </div>
+  </div>
+</section>

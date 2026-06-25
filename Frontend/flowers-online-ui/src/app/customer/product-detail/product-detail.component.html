@@ -1,6 +1,7 @@
 <section class="detail-page">
   <a class="back-link" routerLink="/shop">Back to Shop</a>
 
+  <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
   <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
   <p *ngIf="isLoading">Loading product details...</p>
 
@@ -32,12 +33,36 @@
 
       <div class="total-box" *ngIf="selectedSize">
         <span>Total</span>
-        <strong>{{ selectedSize.price }}</strong>
+        <strong>{{ getTotal() }}</strong>
       </div>
 
-      <button type="button" class="cart-button" disabled>
-        Add to Cart will be added in next functionality
-      </button>
+      <form class="cart-form" #cartForm="ngForm" (ngSubmit)="addToCart()">
+        <label>
+          Customer Email
+          <input
+            type="email"
+            name="customerEmail"
+            [(ngModel)]="customerEmail"
+            required
+            email
+            maxlength="150"
+            placeholder="Enter your registered email">
+        </label>
+
+        <label>
+          Quantity
+          <input
+            type="number"
+            name="quantity"
+            [(ngModel)]="quantity"
+            required
+            min="1">
+        </label>
+
+        <button type="submit" class="cart-button" [disabled]="cartForm.invalid || isAddingToCart || !selectedSize">
+          {{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}
+        </button>
+      </form>
     </div>
   </article>
 </section>
