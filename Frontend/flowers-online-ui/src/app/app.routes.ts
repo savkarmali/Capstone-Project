@@ -11,6 +11,8 @@ import { ShopComponent } from './customer/shop/shop.component';
 import { ProductDetailComponent } from './customer/product-detail/product-detail.component';
 import { CartComponent } from './customer/cart/cart.component';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
+import { OrdersComponent } from './customer/orders/orders.component';
+import { ReportsComponent } from './admin/reports/reports.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'admin/upload-product', pathMatch: 'full' },
@@ -25,5 +27,7 @@ export const routes: Routes = [
   { path: 'shop', component: ShopComponent }, 
   { path: 'shop/product/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent }
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'orders', component: OrdersComponent },
+  { path: 'admin/reports', component: ReportsComponent }
 ];

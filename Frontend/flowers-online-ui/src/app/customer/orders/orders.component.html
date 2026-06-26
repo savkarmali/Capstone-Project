@@ -1,0 +1,60 @@
+<section class="orders-page">
+  <div class="page-title">
+    <p>Functionality 14</p>
+    <h1>Previous Orders</h1>
+  </div>
+
+  <form class="lookup-card" #ordersForm="ngForm" (ngSubmit)="loadOrders()">
+    <label>
+      Customer Email
+      <input
+        type="email"
+        name="customerEmail"
+        [(ngModel)]="customerEmail"
+        required
+        email
+        maxlength="150"
+        placeholder="Enter your registered email">
+    </label>
+
+    <button type="submit" [disabled]="ordersForm.invalid || isLoading">
+      {{ isLoading ? 'Loading...' : 'View Orders' }}
+    </button>
+  </form>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="empty-state" *ngIf="hasSearched && !isLoading && orders.length === 0 && !errorMessage">
+    <h2>No previous orders found</h2>
+  </div>
+
+  <div class="orders-list" *ngIf="orders.length > 0">
+    <article class="order-card" *ngFor="let order of orders">
+      <button type="button" class="order-header" (click)="toggleOrder(order.orderId)">
+        <span>Order #{{ order.orderId }}</span>
+        <span>{{ order.orderStatus }}</span>
+        <strong>{{ order.orderTotal }}</strong>
+      </button>
+
+      <div class="order-details" *ngIf="expandedOrderId === order.orderId">
+        <p><strong>Payment:</strong> {{ order.paymentMethod }}</p>
+        <p><strong>Delivery:</strong> {{ order.deliveryAddress }}, {{ order.deliveryCity }}, {{ order.deliveryCountry }}</p>
+        <p><strong>Phone:</strong> {{ order.phoneNumber }}</p>
+
+        <div class="item-row header">
+          <span>Item</span>
+          <span>Size</span>
+          <span>Qty</span>
+          <span>Subtotal</span>
+        </div>
+
+        <div class="item-row" *ngFor="let item of order.items">
+          <span>{{ item.productName }}</span>
+          <span>{{ item.selectedSize }}</span>
+          <span>{{ item.quantity }}</span>
+          <span>{{ item.subtotal }}</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

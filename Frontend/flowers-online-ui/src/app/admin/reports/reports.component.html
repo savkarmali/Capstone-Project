@@ -1,0 +1,53 @@
+<section class="reports-page">
+  <div class="page-title">
+    <p>Functionality 15</p>
+    <h1>Sales / Orders Report</h1>
+  </div>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p *ngIf="isLoading">Loading reports...</p>
+
+  <div class="summary-grid" *ngIf="summary">
+    <article>
+      <span>Total Orders</span>
+      <strong>{{ summary.totalOrders }}</strong>
+    </article>
+
+    <article>
+      <span>Total Sales</span>
+      <strong>{{ summary.totalSales }}</strong>
+    </article>
+  </div>
+
+  <div class="report-card">
+    <div class="card-header">
+      <h2>Order Reports</h2>
+      <button type="button" (click)="loadReports()">Refresh</button>
+    </div>
+
+    <p *ngIf="!isLoading && orders.length === 0">No orders found.</p>
+
+    <table *ngIf="orders.length > 0">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer Email</th>
+          <th>Total</th>
+          <th>Payment</th>
+          <th>Status</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order.orderId }}</td>
+          <td>{{ order.customerEmail }}</td>
+          <td>{{ order.orderTotal }}</td>
+          <td>{{ order.paymentMethod }}</td>
+          <td>{{ order.orderStatus }}</td>
+          <td>{{ order.createdAt }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
