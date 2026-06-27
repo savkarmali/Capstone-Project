@@ -13,6 +13,7 @@ import { CartComponent } from './customer/cart/cart.component';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { OrdersComponent } from './customer/orders/orders.component';
 import { ReportsComponent } from './admin/reports/reports.component';
+import { ContactMessagesComponent } from './admin/contact-messages/contact-messages.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'admin/upload-product', pathMatch: 'full' },
@@ -29,5 +30,7 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'orders', component: OrdersComponent },
-  { path: 'admin/reports', component: ReportsComponent }
+  { path: 'admin/reports', component: ReportsComponent },
+  { path: 'admin/contact-messages', component: ContactMessagesComponent }
+
 ];

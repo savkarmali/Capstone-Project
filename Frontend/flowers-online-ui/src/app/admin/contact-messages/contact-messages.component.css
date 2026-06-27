@@ -1,0 +1,112 @@
+.messages-page {
+  max-width: 1120px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #2f6f4e;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+  color: #183b2a;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: #5f6f66;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: #2f6f4e;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 11px 18px;
+}
+
+button:disabled {
+  background: #91a99b;
+  cursor: not-allowed;
+}
+
+.alert,
+.empty-state {
+  border-radius: 6px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+}
+
+.error {
+  background: #fde8e8;
+  color: #9b1c1c;
+}
+
+.empty-state {
+  background: #f0f7f3;
+  color: #315d43;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #d8e5dd;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e7eee9;
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #edf6f0;
+  color: #183b2a;
+  font-size: 14px;
+}
+
+td {
+  color: #293f33;
+}
+
+.message-text {
+  min-width: 280px;
+  line-height: 1.5;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .page-heading {
+    display: block;
+  }
+
+  button {
+    margin-top: 16px;
+    width: 100%;
+  }
+}

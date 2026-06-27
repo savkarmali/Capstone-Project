@@ -3,7 +3,11 @@ package com.capstone.contact.service;
 import com.capstone.contact.dto.ContactMessageRequest;
 import com.capstone.contact.dto.ContactMessageResponse;
 
+import java.util.List;
+
 public interface ContactMessageService {
 
     ContactMessageResponse saveMessage(ContactMessageRequest request);
+
+    List<ContactMessageResponse> getAllMessages();
 }
