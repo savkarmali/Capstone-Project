@@ -22,10 +22,15 @@ export interface ReviewResponse {
 })
 export class ReviewService {
   private readonly reviewApiUrl = `${environment.apiUrl}/reviews`;
+  private readonly adminReviewApiUrl = `${environment.apiUrl}/admin/reviews`;
 
   constructor(private http: HttpClient) { }
 
   sendReview(request: ReviewRequest): Observable<ReviewResponse> {
     return this.http.post<ReviewResponse>(this.reviewApiUrl, request);
+  }
+
+  getReviews(): Observable<ReviewResponse[]> {
+    return this.http.get<ReviewResponse[]>(this.adminReviewApiUrl);
   }
 }

@@ -1,0 +1,95 @@
+<section class="manage-locations-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Functionality 18</p>
+      <h1>Manage Shop Locations</h1>
+      <p class="subtitle">Add, update, delete, and view shop locations shown to customers.</p>
+    </div>
+  </div>
+
+  <div class="layout">
+    <form class="location-form" (ngSubmit)="saveLocation()">
+      <h2>{{ editingLocationId === null ? 'Add Location' : 'Update Location' }}</h2>
+
+      <label>
+        Shop Name
+        <input type="text" name="shopName" [(ngModel)]="locationForm.shopName" maxlength="100" required>
+      </label>
+
+      <label>
+        Address
+        <textarea name="address" [(ngModel)]="locationForm.address" maxlength="300" required></textarea>
+      </label>
+
+      <div class="field-row">
+        <label>
+          City
+          <input type="text" name="city" [(ngModel)]="locationForm.city" maxlength="100" required>
+        </label>
+
+        <label>
+          Country
+          <input type="text" name="country" [(ngModel)]="locationForm.country" maxlength="100" required>
+        </label>
+      </div>
+
+      <label>
+        Phone Number
+        <input type="text" name="phoneNumber" [(ngModel)]="locationForm.phoneNumber" maxlength="10" required>
+      </label>
+
+      <div class="actions">
+        <button type="submit" [disabled]="isSaving">
+          {{ isSaving ? 'Saving...' : editingLocationId === null ? 'Add Location' : 'Update Location' }}
+        </button>
+        <button type="button" class="secondary" *ngIf="editingLocationId !== null" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <div class="location-list">
+      <div class="list-heading">
+        <h2>Shop Location List</h2>
+        <button type="button" class="secondary" (click)="loadLocations()" [disabled]="isLoading">
+          {{ isLoading ? 'Loading...' : 'Refresh' }}
+        </button>
+      </div>
+
+      <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+
+      <div *ngIf="!isLoading && locations.length === 0" class="empty-state">
+        No shop locations found.
+      </div>
+
+      <div class="table-wrap" *ngIf="locations.length > 0">
+        <table>
+          <thead>
+            <tr>
+              <th>Shop</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Country</th>
+              <th>Phone</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let location of locations">
+              <td>{{ location.shopName }}</td>
+              <td>{{ location.address }}</td>
+              <td>{{ location.city }}</td>
+              <td>{{ location.country }}</td>
+              <td>{{ location.phoneNumber }}</td>
+              <td class="row-actions">
+                <button type="button" class="small" (click)="editLocation(location)">Edit</button>
+                <button type="button" class="small danger" (click)="deleteLocation(location.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

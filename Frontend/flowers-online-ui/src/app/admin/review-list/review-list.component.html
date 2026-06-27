@@ -1,0 +1,35 @@
+<section class="reviews-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Functionality 17</p>
+      <h1>Customer Reviews</h1>
+      <p class="subtitle">View customer feedback and ratings submitted from the Review page.</p>
+    </div>
+
+    <button type="button" (click)="loadReviews()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && reviews.length === 0" class="empty-state">
+    No reviews found.
+  </div>
+
+  <div class="review-grid" *ngIf="reviews.length > 0">
+    <article class="review-card" *ngFor="let review of reviews">
+      <div class="card-top">
+        <div>
+          <h2>{{ review.reviewerEmail }}</h2>
+          <p>{{ review.createdAt | date: 'medium' }}</p>
+        </div>
+        <span class="rating">{{ review.rating }}/5</span>
+      </div>
+
+      <p class="message">{{ review.reviewMessage }}</p>
+    </article>
+  </div>
+</section>

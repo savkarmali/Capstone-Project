@@ -1,0 +1,184 @@
+.manage-locations-page {
+  max-width: 1180px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.page-heading {
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #2f6f4e;
+  font-weight: 700;
+}
+
+h1,
+h2 {
+  color: #183b2a;
+  margin: 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: #5f6f66;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.location-form,
+.location-list {
+  border: 1px solid #d8e5dd;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  color: #293f33;
+  font-weight: 700;
+}
+
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b7c8be;
+  border-radius: 6px;
+  font: inherit;
+  margin-top: 7px;
+  padding: 10px 12px;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.actions,
+.row-actions,
+.list-heading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.actions {
+  margin-top: 18px;
+}
+
+.list-heading {
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: #2f6f4e;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 15px;
+}
+
+button:disabled {
+  background: #91a99b;
+  cursor: not-allowed;
+}
+
+.secondary {
+  background: #eef5f1;
+  color: #2f6f4e;
+}
+
+.small {
+  padding: 8px 10px;
+}
+
+.danger {
+  background: #b42318;
+}
+
+.alert,
+.empty-state {
+  border-radius: 6px;
+  margin-bottom: 16px;
+  padding: 13px 14px;
+}
+
+.success {
+  background: #e6f5ec;
+  color: #146c43;
+}
+
+.error {
+  background: #fde8e8;
+  color: #9b1c1c;
+}
+
+.empty-state {
+  background: #f0f7f3;
+  color: #315d43;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e7eee9;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #edf6f0;
+  color: #183b2a;
+}
+
+td {
+  color: #293f33;
+}
+
+@media (max-width: 900px) {
+  .layout,
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .list-heading,
+  .row-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

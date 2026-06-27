@@ -67,4 +67,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<ErrorResponse>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ShopLocationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleShopLocationNotFoundException(ShopLocationNotFoundException exception) {
+        ErrorResponse response = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Shop location not found",
+                Collections.singletonList(exception.getMessage())
+        );
+        return new ResponseEntity<ErrorResponse>(response, HttpStatus.NOT_FOUND);
+    }
+
+
 }

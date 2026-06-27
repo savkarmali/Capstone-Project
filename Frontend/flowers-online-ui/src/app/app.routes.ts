@@ -14,6 +14,8 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { OrdersComponent } from './customer/orders/orders.component';
 import { ReportsComponent } from './admin/reports/reports.component';
 import { ContactMessagesComponent } from './admin/contact-messages/contact-messages.component';
+import { ReviewListComponent } from './admin/review-list/review-list.component';
+import { ManageLocationsComponent } from './admin/manage-locations/manage-locations.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'admin/upload-product', pathMatch: 'full' },
@@ -31,6 +33,8 @@ export const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'admin/reports', component: ReportsComponent },
-  { path: 'admin/contact-messages', component: ContactMessagesComponent }
+  { path: 'admin/contact-messages', component: ContactMessagesComponent },
+  { path: 'admin/reviews', component: ReviewListComponent },
+  { path: 'admin/manage-locations', component: ManageLocationsComponent }
 
 ];
