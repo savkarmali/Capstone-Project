@@ -1,6 +1,7 @@
 package com.capstone.report.controller;
 
 import com.capstone.order.dto.AdminOrderReportResponse;
+import com.capstone.report.dto.InventoryReportResponse;
 import com.capstone.report.dto.SalesSummaryResponse;
 import com.capstone.report.service.ReportService;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,10 @@ public class ReportController {
     @GetMapping("/orders")
     public ResponseEntity<List<AdminOrderReportResponse>> getOrderReports() {
         return ResponseEntity.ok(reportService.getOrderReports());
+    }
+
+    @GetMapping("/inventory")
+    public ResponseEntity<List<InventoryReportResponse>> getInventoryReports() {
+        return ResponseEntity.ok(reportService.getInventoryReports());
     }
 }

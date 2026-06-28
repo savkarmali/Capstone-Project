@@ -17,6 +17,14 @@ export interface AdminOrderReportResponse {
   createdAt: string;
 }
 
+export interface InventoryReportResponse {
+  productId: number;
+  name: string;
+  category: string;
+  stockQuantity: number;
+  available: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,5 +39,9 @@ export class ReportService {
 
   getOrderReports(): Observable<AdminOrderReportResponse[]> {
     return this.http.get<AdminOrderReportResponse[]>(`${this.reportApiUrl}/orders`);
+  }
+
+  getInventoryReports(): Observable<InventoryReportResponse[]> {
+    return this.http.get<InventoryReportResponse[]>(`${this.reportApiUrl}/inventory`);
   }
 }

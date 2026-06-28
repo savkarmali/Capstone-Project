@@ -1,0 +1,63 @@
+<section class="inventory-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Functionality 19</p>
+      <h1>Product Inventory Report</h1>
+      <p class="subtitle">View product stock quantity and availability in one place.</p>
+    </div>
+
+    <button type="button" (click)="loadInventoryReports()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-box">
+      <span>Total Products</span>
+      <strong>{{ totalProducts }}</strong>
+    </div>
+    <div class="summary-box">
+      <span>Total Stock</span>
+      <strong>{{ totalStock }}</strong>
+    </div>
+    <div class="summary-box">
+      <span>Unavailable</span>
+      <strong>{{ unavailableProducts }}</strong>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && inventoryReports.length === 0" class="empty-state">
+    No product inventory found.
+  </div>
+
+  <div class="table-wrap" *ngIf="inventoryReports.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Stock Quantity</th>
+          <th>Availability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of inventoryReports">
+          <td>{{ product.productId }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.stockQuantity }}</td>
+          <td>
+            <span class="status" [class.available]="product.available" [class.unavailable]="!product.available">
+              {{ product.available ? 'Available' : 'Not Available' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
