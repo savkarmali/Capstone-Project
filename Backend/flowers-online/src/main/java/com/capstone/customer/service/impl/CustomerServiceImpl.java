@@ -3,18 +3,18 @@ package com.capstone.customer.service.impl;
 import com.capstone.customer.dto.*;
 import com.capstone.customer.entity.Customer;
 import com.capstone.customer.repository.CustomerRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
+@AllArgsConstructor
 public class CustomerServiceImpl implements com.capstone.customer.service.CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public com.capstone.customer.dto.CustomerResponse registerCustomer(com.capstone.customer.dto.CustomerRegistrationRequest request) {
@@ -27,7 +27,8 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
         customer.setEmail(request.getEmail());
-        customer.setPassword(request.getPassword());
+//        customer.setPassword(request.getPassword());
+        customer.setPassword(passwordEncoder.encode(request.getPassword()));
         customer.setPhoneNumber(request.getPhoneNumber());
         customer.setCity(request.getCity());
         customer.setCountry(request.getCountry());
@@ -42,7 +43,10 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         Customer customer = customerRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
-        if (!customer.getPassword().equals(request.getPassword())) {
+//        if (!customer.getPassword().equals(request.getPassword())) {
+//            throw new IllegalArgumentException("Invalid email or password");
+//        }
+        if (!passwordEncoder.matches(request.getPassword(), customer.getPassword())) {
             throw new IllegalArgumentException("Invalid email or password");
         }
 
@@ -59,11 +63,15 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         Customer customer = customerRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Customer account not found"));
 
-        if (!customer.getPassword().equals(request.getOldPassword())) {
+//        if (!customer.getPassword().equals(request.getOldPassword())) {
+//            throw new IllegalArgumentException("Old password is incorrect");
+//        }
+        if (!passwordEncoder.matches(request.getOldPassword(), customer.getPassword())) {
             throw new IllegalArgumentException("Old password is incorrect");
         }
 
-        customer.setPassword(request.getNewPassword());
+//        customer.setPassword(request.getNewPassword());
+        customer.setPassword(passwordEncoder.encode(request.getNewPassword()));
         Customer updatedCustomer = customerRepository.save(customer);
 
         ChangePasswordResponse response = new ChangePasswordResponse();
