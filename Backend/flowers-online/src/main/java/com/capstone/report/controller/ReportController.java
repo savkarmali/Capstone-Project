@@ -1,6 +1,8 @@
 package com.capstone.report.controller;
 
 import com.capstone.order.dto.AdminOrderReportResponse;
+import com.capstone.report.dto.CategorySalesReportResponse;
+import com.capstone.report.dto.ChartReportResponse;
 import com.capstone.report.dto.InventoryReportResponse;
 import com.capstone.report.dto.SalesSummaryResponse;
 import com.capstone.report.service.ReportService;
@@ -36,5 +38,15 @@ public class ReportController {
     @GetMapping("/inventory")
     public ResponseEntity<List<InventoryReportResponse>> getInventoryReports() {
         return ResponseEntity.ok(reportService.getInventoryReports());
+    }
+
+    @GetMapping("/category-sales")
+    public ResponseEntity<List<CategorySalesReportResponse>> getCategorySalesReports() {
+        return ResponseEntity.ok(reportService.getCategorySalesReports());
+    }
+
+    @GetMapping("/charts/category-sales")
+    public ResponseEntity<List<ChartReportResponse>> getCategorySalesChart() {
+        return ResponseEntity.ok(reportService.getCategorySalesChart());
     }
 }

@@ -1,0 +1,55 @@
+<section class="category-sales-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Functionality 20</p>
+      <h1>Category-wise Sales Report</h1>
+      <p class="subtitle">View sold quantity and sales amount grouped by product category.</p>
+    </div>
+
+    <button type="button" (click)="loadCategorySalesReports()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-box">
+      <span>Total Categories</span>
+      <strong>{{ categoryReports.length }}</strong>
+    </div>
+    <div class="summary-box">
+      <span>Total Quantity Sold</span>
+      <strong>{{ totalQuantitySold }}</strong>
+    </div>
+    <div class="summary-box">
+      <span>Total Sales</span>
+      <strong>{{ totalSales | currency: 'INR' }}</strong>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && categoryReports.length === 0" class="empty-state">
+    No category sales found. Place at least one order to see this report.
+  </div>
+
+  <div class="table-wrap" *ngIf="categoryReports.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Total Quantity Sold</th>
+          <th>Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of categoryReports">
+          <td>{{ report.category }}</td>
+          <td>{{ report.totalQuantitySold }}</td>
+          <td>{{ report.totalSales | currency: 'INR' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

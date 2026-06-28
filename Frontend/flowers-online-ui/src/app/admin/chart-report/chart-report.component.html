@@ -1,0 +1,36 @@
+<section class="chart-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Functionality 21</p>
+      <h1>Sales Chart Report</h1>
+      <p class="subtitle">View category sales in a simple bar chart.</p>
+    </div>
+
+    <button type="button" (click)="loadChartData()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div class="summary-box">
+    <span>Total Sales</span>
+    <strong>{{ totalSales | currency: 'INR' }}</strong>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && chartData.length === 0" class="empty-state">
+    No chart data found. Place at least one order to view the chart.
+  </div>
+
+  <div class="chart-card" *ngIf="chartData.length > 0">
+    <div class="chart-row" *ngFor="let item of chartData">
+      <div class="chart-label">{{ item.label }}</div>
+      <div class="bar-track">
+        <div class="bar-fill" [style.width.%]="getBarWidth(item.value)"></div>
+      </div>
+      <div class="chart-value">{{ item.value | currency: 'INR' }}</div>
+    </div>
+  </div>
+</section>

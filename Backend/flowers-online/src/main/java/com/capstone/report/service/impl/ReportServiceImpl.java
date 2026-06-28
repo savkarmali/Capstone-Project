@@ -2,6 +2,10 @@ package com.capstone.report.service.impl;
 
 import com.capstone.entity.Product;
 import com.capstone.order.dto.AdminOrderReportResponse;
+import com.capstone.order.entity.OrderItem;
+import com.capstone.order.repository.OrderItemRepository;
+import com.capstone.report.dto.CategorySalesReportResponse;
+import com.capstone.report.dto.ChartReportResponse;
 import com.capstone.report.dto.InventoryReportResponse;
 import com.capstone.report.dto.SalesSummaryResponse;
 import com.capstone.order.entity.Order;
@@ -12,7 +16,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +28,7 @@ public class ReportServiceImpl implements ReportService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     public SalesSummaryResponse getSalesSummary() {
@@ -51,14 +59,41 @@ public class ReportServiceImpl implements ReportService {
                 .collect(Collectors.toList());
     }
 
-    private InventoryReportResponse toInventoryResponse(Product product) {
-        InventoryReportResponse response = new InventoryReportResponse();
-        response.setProductId(product.getId());
-        response.setName(product.getName());
-        response.setCategory(product.getCategory());
-        response.setStockQuantity(product.getStockQuantity());
-        response.setAvailable(product.getAvailable());
-        return response;
+    @Override
+    public List<CategorySalesReportResponse> getCategorySalesReports() {
+        Map<String, CategorySalesReportResponse> categoryReportMap =
+                new LinkedHashMap<String, CategorySalesReportResponse>();
+
+        List<OrderItem> orderItems = orderItemRepository.findAll();
+
+        for (OrderItem orderItem : orderItems) {
+            String category = productRepository.findById(orderItem.getProductId())
+                    .map(Product::getCategory)
+                    .orElse("Unknown");
+
+            CategorySalesReportResponse report = categoryReportMap.get(category);
+
+            if (report == null) {
+                report = new CategorySalesReportResponse();
+                report.setCategory(category);
+                report.setTotalQuantitySold(0);
+                report.setTotalSales(BigDecimal.ZERO);
+                categoryReportMap.put(category, report);
+            }
+
+            report.setTotalQuantitySold(report.getTotalQuantitySold() + orderItem.getQuantity());
+            report.setTotalSales(report.getTotalSales().add(orderItem.getSubtotal()));
+        }
+
+        return new ArrayList<CategorySalesReportResponse>(categoryReportMap.values());
+    }
+
+    @Override
+    public List<ChartReportResponse> getCategorySalesChart() {
+        return getCategorySalesReports()
+                .stream()
+                .map(this::toChartResponse)
+                .collect(Collectors.toList());
     }
 
     private AdminOrderReportResponse toResponse(Order order) {
@@ -69,6 +104,23 @@ public class ReportServiceImpl implements ReportService {
         response.setPaymentMethod(order.getPaymentMethod());
         response.setOrderStatus(order.getOrderStatus());
         response.setCreatedAt(order.getCreatedAt());
+        return response;
+    }
+
+    private InventoryReportResponse toInventoryResponse(Product product) {
+        InventoryReportResponse response = new InventoryReportResponse();
+        response.setProductId(product.getId());
+        response.setName(product.getName());
+        response.setCategory(product.getCategory());
+        response.setStockQuantity(product.getStockQuantity());
+        response.setAvailable(product.getAvailable());
+        return response;
+    }
+
+    private ChartReportResponse toChartResponse(CategorySalesReportResponse categoryReport) {
+        ChartReportResponse response = new ChartReportResponse();
+        response.setLabel(categoryReport.getCategory());
+        response.setValue(categoryReport.getTotalSales());
         return response;
     }
 }

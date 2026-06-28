@@ -25,6 +25,17 @@ export interface InventoryReportResponse {
   available: boolean;
 }
 
+export interface CategorySalesReportResponse {
+  category: string;
+  totalQuantitySold: number;
+  totalSales: number;
+}
+
+export interface ChartReportResponse {
+  label: string;
+  value: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,5 +54,13 @@ export class ReportService {
 
   getInventoryReports(): Observable<InventoryReportResponse[]> {
     return this.http.get<InventoryReportResponse[]>(`${this.reportApiUrl}/inventory`);
+  }
+
+  getCategorySalesReports(): Observable<CategorySalesReportResponse[]> {
+    return this.http.get<CategorySalesReportResponse[]>(`${this.reportApiUrl}/category-sales`);
+  }
+
+  getCategorySalesChart(): Observable<ChartReportResponse[]> {
+    return this.http.get<ChartReportResponse[]>(`${this.reportApiUrl}/charts/category-sales`);
   }
 }

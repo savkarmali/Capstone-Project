@@ -17,6 +17,8 @@ import { ContactMessagesComponent } from './admin/contact-messages/contact-messa
 import { ReviewListComponent } from './admin/review-list/review-list.component';
 import { ManageLocationsComponent } from './admin/manage-locations/manage-locations.component';
 import { InventoryReportComponent } from './admin/inventory-report/inventory-report.component';
+import { CategorySalesReportComponent } from './admin/category-sales-report/category-sales-report.component';
+import { ChartReportComponent } from './admin/chart-report/chart-report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'admin/upload-product', pathMatch: 'full' },
@@ -37,6 +39,8 @@ export const routes: Routes = [
   { path: 'admin/contact-messages', component: ContactMessagesComponent },
   { path: 'admin/reviews', component: ReviewListComponent },
   { path: 'admin/manage-locations', component: ManageLocationsComponent },
-  { path: 'admin/reports/inventory', component: InventoryReportComponent }
+  { path: 'admin/reports/inventory', component: InventoryReportComponent },
+  { path: 'admin/reports/category-sales', component: CategorySalesReportComponent },
+  { path: 'admin/reports/charts', component: ChartReportComponent }
 
 ];
