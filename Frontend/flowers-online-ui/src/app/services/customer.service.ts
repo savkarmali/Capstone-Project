@@ -36,6 +36,8 @@ export interface CustomerLoginResponse {
   firstName: string;
   email: string;
   message: string;
+  token: string;
+  tokenType: string;
 }
 
 export interface ChangePasswordRequest {

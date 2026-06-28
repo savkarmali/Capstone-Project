@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CustomerService, CustomerLoginRequest } from '../../services/customer.service';
-
+import { CustomerLoginRequest, CustomerService } from '../../services/customer.service';
+import { AuthTokenService } from '../../services/auth-token.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,10 @@ export class LoginComponent {
   errorMessage = '';
   isLoggingIn = false;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(
+    private customerService: CustomerService,
+    private authTokenService: AuthTokenService
+  ) { }
 
   loginCustomer(): void {
     this.successMessage = '';
@@ -29,6 +32,7 @@ export class LoginComponent {
 
     this.customerService.loginCustomer(this.loginRequest).subscribe({
       next: response => {
+        this.authTokenService.saveToken(response.token, response.email);
         this.successMessage = `Welcome ${response.firstName}. Login successful.`;
         this.loginRequest = {
           email: '',

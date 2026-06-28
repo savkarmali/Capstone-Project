@@ -3,6 +3,7 @@ package com.capstone.customer.service.impl;
 import com.capstone.customer.dto.*;
 import com.capstone.customer.entity.Customer;
 import com.capstone.customer.repository.CustomerRepository;
+import com.capstone.security.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,10 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
 
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Override
-    public com.capstone.customer.dto.CustomerResponse registerCustomer(com.capstone.customer.dto.CustomerRegistrationRequest request) {
+    public CustomerResponse registerCustomer(CustomerRegistrationRequest request) {
         if (customerRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email is already registered");
         }
@@ -55,6 +57,8 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         response.setFirstName(customer.getFirstName());
         response.setEmail(customer.getEmail());
         response.setMessage("Login successful");
+        response.setToken(jwtUtil.generateToken(customer.getEmail()));
+        response.setTokenType("Bearer");
         return response;
     }
 
