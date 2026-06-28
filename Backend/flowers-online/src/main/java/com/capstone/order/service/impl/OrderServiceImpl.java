@@ -2,6 +2,7 @@ package com.capstone.order.service.impl;
 
 import com.capstone.cart.entity.CartItem;
 import com.capstone.cart.repository.CartItemRepository;
+import com.capstone.email.service.EmailService;
 import com.capstone.order.dto.CheckoutRequest;
 import com.capstone.order.dto.OrderDetailsResponse;
 import com.capstone.order.dto.OrderItemResponse;
@@ -26,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final EmailService emailService;
 
     @Override
     public OrderResponse checkout(CheckoutRequest request) {
@@ -67,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         cartItemRepository.deleteAll(cartItems);
+        emailService.sendOrderConfirmation(savedOrder);
 
         return toResponse(savedOrder);
     }

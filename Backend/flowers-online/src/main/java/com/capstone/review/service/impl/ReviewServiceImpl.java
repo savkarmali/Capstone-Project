@@ -1,5 +1,6 @@
 package com.capstone.review.service.impl;
 
+import com.capstone.email.service.EmailService;
 import com.capstone.review.dto.ReviewRequest;
 import com.capstone.review.dto.ReviewResponse;
 import com.capstone.review.entity.Review;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final EmailService emailService;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, EmailService emailService) {
         this.reviewRepository = reviewRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -30,6 +33,8 @@ public class ReviewServiceImpl implements ReviewService {
         review.setCreatedAt(LocalDateTime.now());
 
         Review savedReview = reviewRepository.save(review);
+        emailService.sendReviewNotification(savedReview);
+
         return toResponse(savedReview);
     }
 

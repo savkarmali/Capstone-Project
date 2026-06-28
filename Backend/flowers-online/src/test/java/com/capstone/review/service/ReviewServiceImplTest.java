@@ -1,5 +1,6 @@
 package com.capstone.review.service;
 
+import com.capstone.email.service.EmailService;
 import com.capstone.review.dto.ReviewRequest;
 import com.capstone.review.dto.ReviewResponse;
 import com.capstone.review.entity.Review;
@@ -17,7 +18,8 @@ class ReviewServiceImplTest {
     @Test
     void saveReviewShouldSaveReviewDetails() {
         ReviewRepository repository = mock(ReviewRepository.class);
-        ReviewService service = new ReviewServiceImpl(repository);
+        EmailService emailService = mock(EmailService.class);
+        ReviewService service = new ReviewServiceImpl(repository, emailService);
 
         ReviewRequest request = new ReviewRequest();
         request.setReviewerEmail("customer@example.com");
@@ -34,6 +36,7 @@ class ReviewServiceImplTest {
 
         ArgumentCaptor<Review> captor = ArgumentCaptor.forClass(Review.class);
         verify(repository).save(captor.capture());
+        verify(emailService).sendReviewNotification(any(Review.class));
 
         assertEquals("customer@example.com", captor.getValue().getReviewerEmail());
         assertEquals(5, response.getRating());
