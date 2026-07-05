@@ -13,5 +13,5 @@ public class CustomerLoginResponse {
     private String message;
     private String token;
     private String tokenType;
-
+    private String role;
 }

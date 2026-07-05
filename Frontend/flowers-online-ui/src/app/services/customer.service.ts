@@ -23,6 +23,7 @@ export interface CustomerResponse {
   phoneNumber: string;
   city: string;
   country: string;
+  role: 'ADMIN' | 'CUSTOMER';
   createdAt: string;
 }
 
@@ -38,6 +39,7 @@ export interface CustomerLoginResponse {
   message: string;
   token: string;
   tokenType: string;
+  role: 'ADMIN' | 'CUSTOMER';
 }
 
 export interface ChangePasswordRequest {

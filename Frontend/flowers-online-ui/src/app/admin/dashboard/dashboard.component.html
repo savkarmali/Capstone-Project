@@ -1,0 +1,37 @@
+<section class="dashboard-page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1>Dashboard</h1>
+      <p class="subtitle">A quick overview of products, orders, customers, revenue, and inventory.</p>
+    </div>
+    <button type="button" (click)="loadDashboard()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+
+  <div class="dashboard-grid" *ngIf="summary">
+    <article class="dashboard-card">
+      <span>Total Products</span>
+      <strong>{{ summary.totalProducts }}</strong>
+    </article>
+    <article class="dashboard-card">
+      <span>Orders</span>
+      <strong>{{ summary.totalOrders }}</strong>
+    </article>
+    <article class="dashboard-card">
+      <span>Customers</span>
+      <strong>{{ summary.totalCustomers }}</strong>
+    </article>
+    <article class="dashboard-card">
+      <span>Revenue</span>
+      <strong>{{ summary.totalRevenue | currency: 'INR' }}</strong>
+    </article>
+    <article class="dashboard-card">
+      <span>Inventory</span>
+      <strong>{{ summary.totalInventory }}</strong>
+    </article>
+  </div>
+</section>

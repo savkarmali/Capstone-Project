@@ -1,10 +1,7 @@
 package com.capstone.report.service;
 
 import com.capstone.order.dto.AdminOrderReportResponse;
-import com.capstone.report.dto.CategorySalesReportResponse;
-import com.capstone.report.dto.ChartReportResponse;
-import com.capstone.report.dto.InventoryReportResponse;
-import com.capstone.report.dto.SalesSummaryResponse;
+import com.capstone.report.dto.*;
 
 import java.util.List;
 
@@ -19,4 +16,6 @@ public interface ReportService {
     List<CategorySalesReportResponse> getCategorySalesReports();
 
     List<ChartReportResponse> getCategorySalesChart();
+
+    DashboardSummaryResponse getDashboardSummary();
 }

@@ -1,13 +1,11 @@
 package com.capstone.report.service.impl;
 
+import com.capstone.customer.repository.CustomerRepository;
 import com.capstone.entity.Product;
 import com.capstone.order.dto.AdminOrderReportResponse;
 import com.capstone.order.entity.OrderItem;
 import com.capstone.order.repository.OrderItemRepository;
-import com.capstone.report.dto.CategorySalesReportResponse;
-import com.capstone.report.dto.ChartReportResponse;
-import com.capstone.report.dto.InventoryReportResponse;
-import com.capstone.report.dto.SalesSummaryResponse;
+import com.capstone.report.dto.*;
 import com.capstone.order.entity.Order;
 import com.capstone.order.repository.OrderRepository;
 import com.capstone.report.service.ReportService;
@@ -29,6 +27,7 @@ public class ReportServiceImpl implements ReportService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public SalesSummaryResponse getSalesSummary() {
@@ -94,6 +93,28 @@ public class ReportServiceImpl implements ReportService {
                 .stream()
                 .map(this::toChartResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public DashboardSummaryResponse getDashboardSummary() {
+        List<Order> orders = orderRepository.findAll();
+        List<Product> products = productRepository.findAll();
+
+        BigDecimal totalRevenue = orders.stream()
+                .map(Order::getOrderTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Integer totalInventory = products.stream()
+                .map(Product::getStockQuantity)
+                .reduce(0, Integer::sum);
+
+        DashboardSummaryResponse response = new DashboardSummaryResponse();
+        response.setTotalProducts((long) products.size());
+        response.setTotalOrders((long) orders.size());
+        response.setTotalCustomers(customerRepository.count());
+        response.setTotalRevenue(totalRevenue);
+        response.setTotalInventory(totalInventory);
+        return response;
     }
 
     private AdminOrderReportResponse toResponse(Order order) {

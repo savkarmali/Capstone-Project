@@ -17,5 +17,6 @@ public class CustomerResponse {
     private String phoneNumber;
     private String city;
     private String country;
+    private String role;
     private LocalDateTime createdAt;
 }

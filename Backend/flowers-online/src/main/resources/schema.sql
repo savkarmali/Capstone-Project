@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS customers (
     phone_number VARCHAR(20) NOT NULL,
     city VARCHAR(100) NOT NULL,
     country VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
     created_at TIMESTAMP NOT NULL
     );
 

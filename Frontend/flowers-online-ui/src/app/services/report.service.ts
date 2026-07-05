@@ -36,6 +36,14 @@ export interface ChartReportResponse {
   value: number;
 }
 
+export interface DashboardSummaryResponse {
+  totalProducts: number;
+  totalOrders: number;
+  totalCustomers: number;
+  totalRevenue: number;
+  totalInventory: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,5 +70,9 @@ export class ReportService {
 
   getCategorySalesChart(): Observable<ChartReportResponse[]> {
     return this.http.get<ChartReportResponse[]>(`${this.reportApiUrl}/charts/category-sales`);
+  }
+
+  getDashboardSummary(): Observable<DashboardSummaryResponse> {
+    return this.http.get<DashboardSummaryResponse>(`${this.reportApiUrl}/dashboard-summary`);
   }
 }

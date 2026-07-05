@@ -21,20 +21,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
+        http.cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/api/customers/register", "/api/customers/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/locations", "/api/shop/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/contact-messages", "/api/reviews").permitAll()
-                .requestMatchers("/api/admin/**", "/api/cart/**", "/api/orders/**", "/api/customers/change-password")
-                .authenticated()
-                .anyRequest().permitAll());
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/api/customers/register", "/api/customers/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/locations", "/api/shop/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/contact-messages", "/api/reviews").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/cart/**", "/api/orders/**", "/api/customers/change-password")
+                        .authenticated()
+                        .anyRequest().permitAll()
+                );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

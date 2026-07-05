@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { CustomerLoginRequest, CustomerService } from '../../services/customer.service';
 import { AuthTokenService } from '../../services/auth-token.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -22,7 +23,8 @@ export class LoginComponent {
 
   constructor(
     private customerService: CustomerService,
-    private authTokenService: AuthTokenService
+    private authTokenService: AuthTokenService,
+    private router: Router
   ) { }
 
   loginCustomer(): void {
@@ -32,13 +34,14 @@ export class LoginComponent {
 
     this.customerService.loginCustomer(this.loginRequest).subscribe({
       next: response => {
-        this.authTokenService.saveToken(response.token, response.email);
+        this.authTokenService.saveToken(response.token, response.email, response.role);
         this.successMessage = `Welcome ${response.firstName}. Login successful.`;
         this.loginRequest = {
           email: '',
           password: ''
         };
         this.isLoggingIn = false;
+        this.router.navigate([response.role === 'ADMIN' ? '/admin/dashboard' : '/customer/home']);
       },
       error: error => {
         this.errorMessage = this.getErrorMessage(error);

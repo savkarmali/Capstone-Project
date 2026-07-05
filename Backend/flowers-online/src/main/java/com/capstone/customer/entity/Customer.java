@@ -40,6 +40,10 @@ public class Customer {
     @Column(nullable = false, length = 100)
     private String country;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Role role;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 }

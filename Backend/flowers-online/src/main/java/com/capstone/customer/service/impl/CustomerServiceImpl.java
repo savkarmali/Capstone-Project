@@ -2,7 +2,9 @@ package com.capstone.customer.service.impl;
 
 import com.capstone.customer.dto.*;
 import com.capstone.customer.entity.Customer;
+import com.capstone.customer.entity.Role;
 import com.capstone.customer.repository.CustomerRepository;
+import com.capstone.customer.service.CustomerService;
 import com.capstone.security.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class CustomerServiceImpl implements com.capstone.customer.service.CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
@@ -34,6 +36,7 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         customer.setPhoneNumber(request.getPhoneNumber());
         customer.setCity(request.getCity());
         customer.setCountry(request.getCountry());
+        customer.setRole(Role.CUSTOMER);
         customer.setCreatedAt(LocalDateTime.now());
 
         Customer savedCustomer = customerRepository.save(customer);
@@ -57,7 +60,9 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         response.setFirstName(customer.getFirstName());
         response.setEmail(customer.getEmail());
         response.setMessage("Login successful");
-        response.setToken(jwtUtil.generateToken(customer.getEmail()));
+        Role role = getCustomerRole(customer);
+        response.setRole(role.name());
+        response.setToken(jwtUtil.generateToken(customer.getEmail(), role.name()));
         response.setTokenType("Bearer");
         return response;
     }
@@ -94,7 +99,12 @@ public class CustomerServiceImpl implements com.capstone.customer.service.Custom
         response.setPhoneNumber(customer.getPhoneNumber());
         response.setCity(customer.getCity());
         response.setCountry(customer.getCountry());
+        response.setRole(getCustomerRole(customer).name());
         response.setCreatedAt(customer.getCreatedAt());
         return response;
+    }
+
+    private Role getCustomerRole(Customer customer) {
+        return customer.getRole() == null ? Role.CUSTOMER : customer.getRole();
     }
 }

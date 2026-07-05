@@ -1,7 +1,13 @@
 package com.capstone.customer.service;
 
-import com.capstone.customer.dto.*;
+import com.capstone.customer.dto.ChangePasswordRequest;
+import com.capstone.customer.dto.ChangePasswordResponse;
+import com.capstone.customer.dto.CustomerLoginRequest;
+import com.capstone.customer.dto.CustomerLoginResponse;
+import com.capstone.customer.dto.CustomerRegistrationRequest;
+import com.capstone.customer.dto.CustomerResponse;
 import com.capstone.customer.entity.Customer;
+import com.capstone.customer.entity.Role;
 import com.capstone.customer.repository.CustomerRepository;
 import com.capstone.customer.service.impl.CustomerServiceImpl;
 import com.capstone.security.JwtUtil;
@@ -13,11 +19,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-class CustomerServiceImplTest {
+public class CustomerServiceImplTest {
 
     @Test
     void registerCustomerShouldSaveNewCustomer() {
@@ -41,6 +52,7 @@ class CustomerServiceImplTest {
         verify(repository).save(captor.capture());
 
         assertEquals("Mary", captor.getValue().getFirstName());
+        assertEquals(Role.CUSTOMER, captor.getValue().getRole());
         assertNotNull(captor.getValue().getPassword());
         assertEquals("mary@example.com", response.getEmail());
         assertEquals(1L, response.getId());
@@ -73,7 +85,7 @@ class CustomerServiceImplTest {
         request.setPassword("secret123");
 
         when(repository.findByEmail("mary@example.com")).thenReturn(Optional.of(customer));
-        when(jwtUtil.generateToken("mary@example.com")).thenReturn("sample-jwt-token");
+        when(jwtUtil.generateToken("mary@example.com", "CUSTOMER")).thenReturn("sample-jwt-token");
 
         CustomerLoginResponse response = service.loginCustomer(request);
 
@@ -82,6 +94,7 @@ class CustomerServiceImplTest {
         assertEquals("Login successful", response.getMessage());
         assertEquals("sample-jwt-token", response.getToken());
         assertEquals("Bearer", response.getTokenType());
+        assertEquals("CUSTOMER", response.getRole());
     }
 
     @Test
@@ -168,6 +181,7 @@ class CustomerServiceImplTest {
         customer.setPhoneNumber("9876543210");
         customer.setCity("Bengaluru");
         customer.setCountry("India");
+        customer.setRole(Role.CUSTOMER);
         customer.setCreatedAt(LocalDateTime.now());
         return customer;
     }

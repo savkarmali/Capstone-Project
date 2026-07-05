@@ -1,10 +1,7 @@
 package com.capstone.report.controller;
 
 import com.capstone.order.dto.AdminOrderReportResponse;
-import com.capstone.report.dto.CategorySalesReportResponse;
-import com.capstone.report.dto.ChartReportResponse;
-import com.capstone.report.dto.InventoryReportResponse;
-import com.capstone.report.dto.SalesSummaryResponse;
+import com.capstone.report.dto.*;
 import com.capstone.report.service.ReportService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,5 +45,10 @@ public class ReportController {
     @GetMapping("/charts/category-sales")
     public ResponseEntity<List<ChartReportResponse>> getCategorySalesChart() {
         return ResponseEntity.ok(reportService.getCategorySalesChart());
+    }
+
+    @GetMapping("/dashboard-summary")
+    public ResponseEntity<DashboardSummaryResponse> getDashboardSummary() {
+        return ResponseEntity.ok(reportService.getDashboardSummary());
     }
 }

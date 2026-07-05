@@ -1,0 +1,36 @@
+<header class="app-header">
+  <a class="brand" routerLink="/shop">
+    <span class="brand-mark">F</span>
+    <span>Flowers Online</span>
+  </a>
+
+  <nav class="nav-links" *ngIf="!authTokenService.isLoggedIn()">
+    <a routerLink="/shop" routerLinkActive="active">Home</a>
+    <a routerLink="/shop" routerLinkActive="active">Shop</a>
+    <a routerLink="/contact" routerLinkActive="active">Contact</a>
+    <a routerLink="/account/login" routerLinkActive="active">Login</a>
+    <a routerLink="/account/register" routerLinkActive="active">Register</a>
+  </nav>
+
+  <nav class="nav-links" *ngIf="authTokenService.isCustomer()">
+    <a routerLink="/customer/home" routerLinkActive="active">Home</a>
+    <a routerLink="/shop" routerLinkActive="active">Shop</a>
+    <a routerLink="/cart" routerLinkActive="active">Cart</a>
+    <a routerLink="/orders" routerLinkActive="active">Orders</a>
+    <button type="button" (click)="logout()">Logout</button>
+  </nav>
+
+  <nav class="nav-links admin-nav" *ngIf="authTokenService.isAdmin()">
+    <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/admin/upload-product" routerLinkActive="active">Upload Product</a>
+    <a routerLink="/admin/manage-products" routerLinkActive="active">Manage Products</a>
+    <a routerLink="/admin/reports" routerLinkActive="active">Reports</a>
+    <a routerLink="/admin/reports/inventory" routerLinkActive="active">Inventory</a>
+    <a routerLink="/admin/reports/category-sales" routerLinkActive="active">Category Sales</a>
+    <a routerLink="/admin/reports/charts" routerLinkActive="active">Charts</a>
+    <a routerLink="/admin/contact-messages" routerLinkActive="active">Messages</a>
+    <a routerLink="/admin/reviews" routerLinkActive="active">Reviews</a>
+    <a routerLink="/admin/manage-locations" routerLinkActive="active">Manage Locations</a>
+    <button type="button" (click)="logout()">Logout</button>
+  </nav>
+</header>

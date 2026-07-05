@@ -21,11 +21,15 @@ public class JwtUtil {
     private Long expirationMs;
 
     public String generateToken(String email) {
+        return generateToken(email, "CUSTOMER");
+    }
+
+    public String generateToken(String email, String role) {
         long now = System.currentTimeMillis();
         long expiry = now + expirationMs;
 
         String headerJson = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
-        String payloadJson = "{\"sub\":\"" + email + "\",\"iat\":" + now + ",\"exp\":" + expiry + "}";
+        String payloadJson = "{\"sub\":\"" + email + "\",\"role\":\"" + role + "\",\"iat\":" + now + ",\"exp\":" + expiry + "}";
 
         String header = base64UrlEncode(headerJson);
         String payload = base64UrlEncode(payloadJson);
@@ -37,6 +41,11 @@ public class JwtUtil {
     public String getEmailFromToken(String token) {
         String payloadJson = decodePayload(token);
         return getJsonValue(payloadJson, "sub");
+    }
+
+    public String getRoleFromToken(String token) {
+        String payloadJson = decodePayload(token);
+        return getJsonValue(payloadJson, "role");
     }
 
     public boolean validateToken(String token) {
